@@ -1,20 +1,15 @@
-'use client'
-
 import { DestinationGrid } from '@/components/destination-grid'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { REAL_DESTINATIONS } from '@/lib/destination-data'
-import { useRouter } from 'next/navigation'
 import { Compass, MapPin, Zap } from 'lucide-react'
 
 export default function HomePage() {
-  const router = useRouter()
-  // Use first 6 destinations to avoid hydration mismatch with random selection
+  // Use real destinations as initial set on the server
+  // Client will fetch AI-generated destinations on load
   const featuredDestinations = REAL_DESTINATIONS.slice(0, 6)
 
-  const handleStartDiscovery = () => {
-    router.push('/discover')
-  }
+
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 overflow-x-hidden">
@@ -35,10 +30,10 @@ export default function HomePage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button onClick={handleStartDiscovery} size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8">
+            <a href="/discover" className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg font-medium">
               <Zap className="w-4 h-4 mr-2" />
               Start AI Discovery
-            </Button>
+            </a>
             <Button variant="outline" size="lg" className="px-8">
               Browse Popular Destinations
             </Button>
@@ -89,9 +84,9 @@ export default function HomePage() {
 
           <div className="mt-12 text-center">
             <p className="text-gray-600 mb-4">Want personalized recommendations?</p>
-            <Button onClick={handleStartDiscovery} size="lg" className="bg-blue-600 hover:bg-blue-700">
+            <a href="/discover" className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg font-medium">
               Chat with Our AI Advisor
-            </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -111,13 +106,9 @@ export default function HomePage() {
           <p className="text-blue-100 mb-8 text-lg">
             Let our AI travel advisor help you find the perfect destination that matches your dreams and budget.
           </p>
-          <Button
-            onClick={handleStartDiscovery}
-            size="lg"
-            className="bg-white text-blue-600 hover:bg-gray-100"
-          >
+          <a href="/discover" className="inline-block bg-white text-blue-600 hover:bg-gray-100 px-8 py-2 rounded-lg font-medium">
             Discover Now
-          </Button>
+          </a>
         </div>
       </section>
 
