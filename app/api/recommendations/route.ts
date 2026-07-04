@@ -1,6 +1,6 @@
 import { generateText } from 'ai'
 import { AI_MODEL, parseDestinationSuggestions, ChatMessage } from '@/lib/ai-config'
-import { REAL_DESTINATIONS, Destination } from '@/lib/destination-data'
+import { REAL_DESTINATIONS, Destination, getAiGeneratedDestinations } from '@/lib/destination-data'
 
 export const runtime = 'nodejs'
 
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
         ...messages,
         {
           role: 'user' as const,
-          content: `Based on our conversation, please suggest ${Math.min(count, 5)} destinations that would be perfect for me. Mix real popular destinations with hidden gems.`,
+          content: `Based on our conversation, please suggest ${Math.min(count, 5)} destinations that would be perfect for me. Include both well-known and hidden gem destinations.`,
         },
       ],
       temperature: 0.8,
@@ -51,34 +51,26 @@ export async function POST(req: Request) {
 
       if (realMatch) {
         recommendations.push(realMatch)
-      } else {
-        // Create AI-generated destination if no match
-        recommendations.push({
-          id: `ai-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          name: suggestion.name,
-          country: suggestion.country,
-          description: suggestion.reason,
-          imageUrl: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop',
-          climate: 'Varies',
-          currency: 'N/A',
-          language: 'N/A',
-          bestTime: 'Year-round',
-          costLevel: 'mid' as const,
-          vibe: 'Adventure',
-          attractions: suggestion.attractions || ['Local attractions', 'Cultural sites'],
-          topActivities: suggestion.attractions || ['Exploring', 'Experiencing local culture'],
-          avgCost: 60,
-          population: 0,
-          isAiGenerated: true,
-        })
       }
     }
 
-    // Get additional random real destinations to reach desired count
-    while (recommendations.length < count) {
-      const random = REAL_DESTINATIONS[Math.floor(Math.random() * REAL_DESTINATIONS.length)]
-      if (!recommendations.find((r) => r.id === random.id)) {
-        recommendations.push(random)
+    // If we need more destinations, generate AI destinations with full details and images
+    if (recommendations.length < count) {
+      const needed = count - recommendations.length
+      try {
+        const aiDestinations = await getAiGeneratedDestinations(needed, true)
+        recommendations.push(...aiDestinations)
+      } catch (error) {
+        console.error('[v0] Error getting AI destinations:', error)
+        // Fallback to random real destinations
+        const remaining = REAL_DESTINATIONS.filter(
+          (d) => !recommendations.find((r) => r.id === d.id)
+        )
+        recommendations.push(
+          ...remaining
+            .sort(() => Math.random() - 0.5)
+            .slice(0, needed)
+        )
       }
     }
 

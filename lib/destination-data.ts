@@ -275,3 +275,31 @@ export function getRandomDestinations(count: number = 3): Destination[] {
   const shuffled = [...REAL_DESTINATIONS].sort(() => Math.random() - 0.5)
   return shuffled.slice(0, Math.min(count, REAL_DESTINATIONS.length))
 }
+
+// AI-generated destination functions
+let aiGeneratedCache: Destination[] = []
+let cacheTimestamp: number = 0
+const CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
+
+export async function getAiGeneratedDestinations(count: number = 3, forceRefresh: boolean = false): Promise<Destination[]> {
+  const now = Date.now()
+  
+  // Return cached results if still valid and not force refreshing
+  if (!forceRefresh && aiGeneratedCache.length > 0 && now - cacheTimestamp < CACHE_DURATION) {
+    return aiGeneratedCache.slice(0, count)
+  }
+
+  try {
+    const { generateDestinationData: generateData } = await import('./ai-destination-generator')
+    const generated = await generateData(count)
+    
+    // Update cache
+    aiGeneratedCache = generated
+    cacheTimestamp = now
+
+    return generated
+  } catch (error) {
+    console.error('[v0] Failed to generate AI destinations, returning empty:', error)
+    return []
+  }
+}
