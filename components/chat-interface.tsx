@@ -49,7 +49,7 @@ export function ChatInterface({ messages, input, onInputChange, onSendMessage, i
             <div className="flex flex-col items-center justify-center h-48 text-center">
               <div className="text-4xl mb-3">✈️</div>
               <p className="font-semibold text-gray-800">Start Your Journey</p>
-              <p className="text-sm text-gray-600 mt-2">Tell me about your ideal destination and I&apos;ll help you find it!</p>
+              <p className="text-sm text-gray-600 mt-2">Tell me about your ideal destination and I&apos;ll help you find hidden gems, local events, and cultural experiences.</p>
             </div>
           )}
 

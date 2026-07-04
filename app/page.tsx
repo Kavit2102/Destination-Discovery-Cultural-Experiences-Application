@@ -23,15 +23,15 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <Badge className="mb-4 bg-blue-100 text-blue-900">AI-Powered Travel Discovery</Badge>
+          <Badge className="mb-4 bg-blue-100 text-blue-900">your next trip, sorted ✨</Badge>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Discover Your Next
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600"> Adventure</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight">
+            find trips that
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600"> feel like you</span>
           </h1>
 
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Chat with our AI travel advisor to find the perfect destination tailored to your budget, interests, and travel style. Explore both popular hotspots and hidden gems.
+            No endless scrolling — just vibe with our AI, explore cool spots, and land on a destination that actually fits your mood and budget.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -160,9 +160,12 @@ export default function HomePage() {
           <div className="border-t border-gray-200 pt-8 flex flex-col sm:flex-row justify-between items-center">
             <div className="flex items-center gap-2 mb-4 sm:mb-0">
               <Compass className="w-5 h-5 text-blue-600" />
-              <p className="font-semibold text-gray-900">Wanderlust Explorer</p>
+              <p className="font-semibold text-gray-900">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-500">roam</span>
+                <span>ly</span>
+              </p>
             </div>
-            <p className="text-sm text-gray-600">© 2024 Wanderlust Explorer. Powered by AI.</p>
+            <p className="text-sm text-gray-600">© 2024 roamly. find your vibe, find your trip.</p>
           </div>
         </div>
       </footer>

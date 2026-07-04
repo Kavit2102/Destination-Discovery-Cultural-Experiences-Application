@@ -2,10 +2,11 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { Navbar } from '@/components/navbar'
+import { WebsiteChatbotLoader } from '@/components/website-chatbot-loader'
 
 export const metadata: Metadata = {
-  title: 'Wanderlust Explorer - AI-Powered Travel Discovery',
-  description: 'Discover your next perfect destination with AI-powered recommendations. Chat with our travel advisor to find hidden gems and popular destinations tailored to your preferences.',
+  title: 'roamly — find trips that feel like you',
+  description: 'Discover your next getaway with roamly. Browse destinations, vibe-check your options, and let AI match you with places you\'ll actually love.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -38,9 +39,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         <Navbar />
         {children}
+        <WebsiteChatbotLoader />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
